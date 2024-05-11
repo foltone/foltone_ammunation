@@ -10,6 +10,8 @@ Config = {
 		label = "Ammunation",
 	},
 
+	LicensePrice = 5000,
+
 	AisleProductList = {
 		[1] = {
 			Label = "Stabbing weapon",

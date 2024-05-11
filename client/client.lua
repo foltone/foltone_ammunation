@@ -21,6 +21,19 @@ function RageUI.PoolMenus:FoltoneAmmunationMenu()
         open = false
     end
     menuAmmunation:IsVisible(function(Items)
+        if not ESX.PlayerData.WeaponLicense then
+            Items:AddButton(_U("weapon_license"), nil, { RightLabel = string.format("~g~%s$", Config.LicensePrice) }, function(onSelected)
+                if onSelected then
+                    ESX.TriggerServerCallback("foltone_ammunation:boughtLicense", function(ok)
+                        if ok then
+                            ESX.PlayerData.WeaponLicense = true
+                        else
+                            ESX.PlayerData.WeaponLicense = false
+                        end
+                    end)
+                end
+            end)
+        end
         for i = 1, #Config.AisleProductList do
             local aisle = Config.AisleProductList[i]
             if aisle.RequireLicense and not ESX.PlayerData.WeaponLicense then
@@ -90,7 +103,6 @@ CreateThread(function()
                 Config.DisplayHelpText(_U("press_to_ammunation"))
                 if IsControlJustPressed(0, 38) then
                     ESX.TriggerServerCallback("esx_license:checkLicense", function(hasLicense)
-                        print(hasLicense)
                         if hasLicense then
                             ESX.PlayerData.WeaponLicense = true
                         else
